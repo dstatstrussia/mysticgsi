@@ -1,0 +1,10 @@
+# phhusson base patches for semigsi ports — product partition properties
+
+# Enable USB debugging by default on GSI builds
+persist.sys.usb.config=mtp,adb
+
+# Camera overrides
+persist.vendor.camera.privapp.list=
+
+# Disable OEM unlocking warning on some devices
+persist.sys.oem_unlocking=false

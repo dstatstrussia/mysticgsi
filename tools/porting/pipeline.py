@@ -16,6 +16,7 @@ def run(ctx: PatchContext) -> None:
     assets.apply_generic_patches(ctx)
     assets.copy_missing_vndks(ctx)
     assets.apply_rom_patches(ctx)
+    assets.apply_phh_patches(ctx)
     put_mystic_build_display_id(ctx)
 
     strip_reboot_on_failure(ctx)

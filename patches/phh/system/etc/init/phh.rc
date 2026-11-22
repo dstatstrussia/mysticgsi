@@ -1,0 +1,7 @@
+on early-init
+    # phhusson base init for semigsi ports
+    setprop persist.sys.phh.treble 1
+    setprop persist.sys.phh.encrypted 1
+
+on init
+    exec /system/etc/init/phh.sh

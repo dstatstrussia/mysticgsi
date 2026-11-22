@@ -1,0 +1,5 @@
+{
+    "description": "phhusson (phh) base patches for semigsi ports",
+    "apply_after_rom": true,
+    "no_device_overlays": true
+}

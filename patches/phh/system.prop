@@ -1,0 +1,38 @@
+# phhusson base patches for semigsi ports
+# These properties help the ported GSI boot and run on a wider range of devices.
+
+# Treble / GSI compatibility
+ro.treble.enabled=true
+
+# ADB / debug (phh standard)
+ro.debuggable=1
+ro.secure=0
+ro.adb.secure=0
+
+# phh props namespace
+persist.sys.phh.treble=true
+persist.sys.phh.encrypted=1
+
+# Allow mounting /system read-write for tweaks (rw-system.sh)
+persist.sys.phh.rw_system=true
+
+# Camera: expose all cameras, including virtual/aux ones
+persist.sys.phh.camera.force_all=true
+persist.sys.phh.camera.aux=true
+
+# Audio: try to work around vendor HAL quirks
+persist.sys.phh.audio.disable_a2dp_offload=false
+persist.sys.phh.audio.force_use_stereo=true
+
+# Display / backlight workarounds
+debug.sf.latch_unsignaled=0
+persist.sys.phh.display.force_linear_brightness=true
+
+# RIL / telephony fixes
+persist.sys.phh.ril.force_lte=true
+persist.sys.phh.telephony.slot_count=2
+
+# Miscellaneous compatibility
+persist.sys.phh.fod.enabled=false
+persist.sys.phh.samsung.camera_ids=true
+persist.sys.phh.mtk.sdcardfs=true

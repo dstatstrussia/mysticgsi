@@ -203,3 +203,47 @@ def apply_rom_patches(ctx: PatchContext) -> None:
         ctx.log("Applying framework patches")
         apply_framework_patches(ctx, patches_json, rom_patches_dir)
     vendors.run_hook(ctx, "after_rom_patches")
+
+
+def apply_phh_patches(ctx: PatchContext) -> None:
+    """Apply phhusson (phh) base patches on top of semigsi ports.
+
+    These patches are intended to be applied after the ROM-specific patches,
+    so phh properties and scripts can override stock/OEM defaults and improve
+    GSI compatibility on the ported image.
+    """
+    phh_path = os.path.join(ctx.patches_dir, "phh")
+    if not os.path.exists(phh_path):
+        return
+
+    config = {}
+    config_path = os.path.join(phh_path, "config.json")
+    if os.path.exists(config_path):
+        try:
+            with open(config_path, "r") as f:
+                config = json.load(f)
+        except Exception as e:
+            ctx.log(f"Error reading {config_path}: {e}")
+
+    system = ctx.system_root()
+    system_prop_path = ctx.partition_prop("system").path
+    product_prop_path = ctx.partition_prop("product").path
+
+    ctx.log("Applying phhusson base patches")
+
+    if os.path.exists(os.path.join(phh_path, "system.prop")):
+        fsops.append_file(
+            os.path.join(phh_path, "system.prop"), system_prop_path
+        )
+
+    if os.path.exists(os.path.join(phh_path, "product.prop")) and product_prop_path:
+        fsops.append_file(
+            os.path.join(phh_path, "product.prop"), product_prop_path
+        )
+
+    system_dir = os.path.join(phh_path, "system")
+    if os.path.exists(system_dir):
+        fsops.cp_r(
+            f"{system_dir}/*", f"{system}/",
+            exclude=ctx.exclude_patch_file,
+        )
